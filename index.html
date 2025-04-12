@@ -1,465 +1,754 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn"> <!-- Set language to Bengali -->
 <head>
-    <title>Approved</title>
-    
-    
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&family=Jost:ital,wght@0,100..900;1,100..900&family=Lexend+Deca:wght@100..900&family=Playwrite+IT+Moderna:wght@100..400&family=Raleway:ital,wght@0,100..900;1,100..900&family=Voces&display=swap" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Feedback - Your Inspire IT</title> <!-- Updated Title -->
+    <!-- Link to Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Link to Google Fonts (Using Poppins from the theme) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Added Atma for Bengali text emphasis if needed, but Poppins supports Bengali well -->
+    <link href="https://fonts.googleapis.com/css2?family=Atma:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
+        /* --- Global Styles & Variables (From Theme - Page 2) --- */
+        :root {
+            --primary-bg: #f4f7fc;
+            --secondary-bg: #ffffff;
+            --tertiary-bg: #f8fafc; /* Used for display sections bg */
+            --text-dark: #1e293b;
+            --text-light: #475569;
+            --text-lighter: #64748b;
+            --accent-color: #4f46e5; /* Theme's primary accent */
+            --accent-hover: #4338ca;
+            --accent-light: rgba(79, 70, 229, 0.1);
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(100, 116, 139, 0.12);
+            --success-color: #10b981; /* Theme's success green */
+            --success-light: rgba(16, 185, 129, 0.1);
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            /* Specific colors for feedback page - adapt from Page 1 */
+            --feedback-highlight-green: #26ff00; /* Original green from Page 1 */
+            --feedback-highlight-cyan: #00ffff; /* Original cyan from Page 1 */
+            --feedback-copy-bg: #2a3342; /* Darker bg for copy section */
+            --feedback-copy-text: #e2e8f0;
+            --feedback-copy-border: var(--success-color);
+            /* Bengali font */
+            --font-bengali: 'Atma', 'Poppins', sans-serif; /* Prioritize Atma if needed */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            font-family: "Lexend Deca", sans-serif;
-            background-color: #000;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            background-color: #000;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-
-        h2 {
-            text-align: center;
-        }
-
-        form {
+            font-family: 'Poppins', sans-serif; /* Default font */
+            background-color: var(--primary-bg);
+            color: var(--text-dark);
+            line-height: 1.7;
+            font-size: 16px;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
-            width: 90%;
+            min-height: 100vh;
         }
+        main { flex: 1; }
 
-        label {
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #fff;
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; } /* Slightly wider for feedback */
+        h1, h2, h3 { font-weight: 600; color: var(--text-dark); margin-bottom: 0.8em; }
+        h2 { font-size: 1.7rem; }
+        h3 { font-size: 1.3rem; color: var(--accent-color); margin-bottom: 1em;}
+        p { margin-bottom: 1em; color: var(--text-light); }
+        a { text-decoration: none; color: var(--accent-color); transition: color 0.3s ease; }
+        a:hover { color: var(--accent-hover); }
+        section { padding: 60px 0; }
+
+        /* Enhanced Bengali text rendering */
+        .bengali-text, #feedback-display p, #feedback-display li {
+             font-family: var(--font-bengali);
+             font-size: 1.05rem; /* Slightly larger for readability */
+             line-height: 1.8;
         }
+        #feedback-display h3 { font-family: 'Poppins', sans-serif; /* Keep headings in Poppins */ }
+        #feedback-display strong { font-weight: 600; color: var(--accent-color); /* Poppins for labels */ }
+         #feedback-display .highlight-label { /* For YI ID, Subject etc. */
+            font-weight: 600;
+            color: var(--success-color);
+            font-family: 'Poppins', sans-serif;
+         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="number"],
-        input[type="password"] {
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .btn { display: inline-block; background-color: var(--accent-color); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; border: none; cursor: pointer; text-align: center; width: 100%; letter-spacing: 0.5px; }
+        .btn:hover { background-color: var(--accent-hover); transform: translateY(-3px); box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35); }
+        .btn:disabled { background-color: var(--text-lighter); cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn.btn-success { /* Specific style for copy button */
+             background-color: var(--success-color);
+             width: auto; /* Allow copy button to size naturally */
+             display: block; /* Make it block to center with margin:auto */
+             margin: 25px auto 0 auto; /* Center copy button */
         }
+         .btn.btn-success:hover {
+             background-color: #0f9d6b; /* Darker green */
+             box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+         }
 
-        input[type="submit"] {
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+        /* --- Header/Navigation (From Theme - Page 2) --- */
+        .main-header { background-color: var(--secondary-bg); padding: 15px 0; box-shadow: 0 2px 10px var(--shadow-color); position: sticky; top: 0; z-index: 1000; }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; position: relative; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent-color); display: flex; align-items: center; }
+        .logo img { height: 35px; margin-right: 10px; /* Adjust if using Page 1 logo */ filter: drop-shadow(0px 0px 3px rgba(79, 70, 229, 0.5));}
+        .main-nav { display: flex; }
+        .main-nav a { margin-left: 25px; font-weight: 500; color: var(--text-dark); position: relative; padding-bottom: 5px; }
+        .main-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--accent-color); transition: width 0.3s ease; }
+        .main-nav a:hover::after { width: 100%; }
+        .main-nav a:hover, .main-nav a.active-nav { color: var(--accent-color); }
+        .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: var(--text-dark); }
 
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        .phone-input {
+        /* --- Feedback Section Styles --- */
+        #report-feedback-section {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 60px 0;
+            min-height: calc(100vh - 150px);
         }
 
-        .phone-input select {
-            padding: 8px;
-            margin-right: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: white;
-        }
-
-        #formOutput {
-            margin-top: 20px;
-            display: none;
-            padding: 20px;
-            background-color: #e6ffe6;
-            border: 1px solid #4CAF50;
-            border-radius: 8px;
-        }
-
-        .box {
-            width: 170px;
-            height: 170px;
-            background-color: #26ff00; /* Approved color */
-            border-radius: 50%;
+        .feedback-container {
+            background-color: var(--secondary-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 12px 35px var(--shadow-color);
+            max-width: 850px; /* Adjusted width */
+            width: 100%;
+            animation: fadeInScaleUp 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            overflow: hidden;
             position: relative;
-            transform-style: preserve-3d;
-            animation: rotate 3s infinite linear;
-            text-align: center;
-            top: 30px;
-            left: 45%;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5), 0 0 40px rgba(0, 255, 0, 0.5);
         }
+        @keyframes fadeInScaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-        .glow {
-            animation: glow 1s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { box-shadow: 0 0 10px #2ecc71, 0 0 20px #2ecc71, 0 0 30px #2ecc71; }
-            to { box-shadow: 0 0 20px #2ecc71, 0 0 30px #2ecc71, 0 0 40px #2ecc71; }
-        }
-
-        .done-sign {
+        /* Content Areas (Form & Display - From Page 2) */
+         .content-area {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            display: none; /* Start hidden */
+         }
+         .content-area.active {
+             display: block;
+             opacity: 1;
+             transform: translateY(0);
+         }
+         .content-area.inactive { display: none; }
+        .content-area.hiding { /* Specific animation for hiding the form */
+            opacity: 0;
+            transform: translateY(-15px);
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 80px;
-            color: #fff;
+            width: calc(100% - 80px); /* Match container padding */
+            top: 40px; /* Match container padding */
+            left: 40px;/* Match container padding */
         }
 
-        .con {
-            margin: 0 auto;
-        }
-
-        .con h1 {
+        /* --- Form Specific Styles (Adapted for Report Form) --- */
+        #report-form h2 {
             text-align: center;
-            color: #fff;
-            font-size: 40px;
-            margin-top: 50px;
-            
+            margin-bottom: 0.5em;
+            color: var(--accent-color);
         }
-
-        .con h1 b {
-            color: #65ff00;
-            text-shadow: 0 0 50px #65ff00, 0 0 50px #65ff00;
-        }
-
-        .con p {
+        #report-form .form-intro {
             text-align: center;
-            color: #fff;
-            font-size: 29px;
+            margin-top: -10px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-family: var(--font-bengali); /* Bengali intro */
         }
 
-        .content {
-            text-align: center;
-            width: 90%;
-            margin: 0 auto;
+        .form-grid {
+             display: grid;
+             grid-template-columns: 1fr 1fr;
+             gap: 18px 25px;
+             margin-bottom: 25px;
         }
-
-        .content img {
-            height: 200px;
-        }
-
-        .shadowfilter {
-            -webkit-filter: drop-shadow(0px 0px 4px rgba(43, 213, 255, 0.80));
-            filter: drop-shadow(0px 0px 4px rgba(43, 213, 255, 0.80)); /* For standard syntax */
-            -webkit-transition: all 0.5s linear;
-            -o-transition: all 0.5s linear;
-            transition: all 0.5s linear;
-        }
-
-        .shadowfilter:hover {
-            -webkit-filter: drop-shadow(0px 0px 10px rgba(43, 213, 255, 0.8));
-            filter: drop-shadow(0px 0px 10px rgba(43, 213, 255, 0.8)); /* For standard syntax */
-        }
-
-        .content h1 {
-            font-size: 70px;
-            color: #65ff00;
-            text-shadow: 0 0 50px #65ff00, 0 0 50px #65ff00;
-            
-            font-family: "Raleway", sans-serif;
-        }
-
-        .content h2 {
-            text-align: center;
-            font-size: 45px;
-            color: #fff;
-        }
-
-        .content p {
-            font-size: 20px;
-            color: #15b6ff;
-            font-family: "Playwrite IT Moderna", cursive;
-        }
-
-        #formOutput1,
-        #formOutput2,
-        #formOutput3,
-        #formOutput4 {
-            padding: 20px;
-            border-radius: 8px;
-            display: none; /* Initially hide the form outputs */
-            width: 880px;
-            margin: 0 auto; /* Center-align the outputs */
-        }
-
-        #formOutput1 h1,
-        #formOutput2 h2,
-        #formOutput3 h2,
-        #formOutput4 h2 {
-            font-size: 38px;
-            color: #00ffff; /* Change the color */
-            text-shadow: 0 0 40px #00ffff, 0 0 40px #00ffff; /* Add text shadow */
-            text-align: left;
-            margin-left: 30px;
-        }
-
-        #formOutput1 p,
-        #formOutput2 p,
-        #formOutput3 p,
-        #formOutput4 p,
-        #formOutput5 p {
-            margin: 20px 0; /* Increase the margin for better spacing */
-            color: #fff; /* Change the text color */
-            font-size: 25px;
-        }
-        
-        
-        
-         #formOutput1 p b,
-        #formOutput2 p b,
-        #formOutput3 p b,
-        #formOutput4 p b,
-        #formOutput5 p b {
-            margin: 10px 0; /* Increase the margin for better spacing */
-            color: #ffff; /* Change the text color */
-            font-size: 35px;
-            text-shadow: 0 0 30px #0003ff;
-        }
-
-        #formOutput1 strong,
-        #formOutput2 strong,
-        #formOutput3 strong,
-        #formOutput4 strong {
-            font-weight: bold;
-            color: #26ff00;
-            font-family: "Jost", sans-serif; /* Change the color of strong elements */
-        }
-
-        #formOutput1 img,
-        #formOutput2 img,
-        #formOutput3 img,
-        #formOutput4 img {
-            height: 150px; /* Decrease the image height for better fit */
-            margin-top: 20px; /* Add some top margin for spacing */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a soft shadow */
-            text-align: left;
-            margin-left: 700px;
-        }
-
-        /* Style for formOutput5 box */
-        #formOutput5 {
-            padding: 20px;
-            border: 2px solid #4CAF50;
-            border-radius: 8px;
-            background-color: #1b1b1b; /* Dark background */
-            width: 880px;
-            margin: 20px auto; /* Center-align the box */
-            display: none;
-            color: #fff; /* White text */
-            font-size: 25px;
-        }
-
-        /* Style for copy button */
-        .copy-button {
+         .form-grid .form-group.full-width { grid-column: 1 / -1; }
+         .form-group { margin-bottom: 0; position: relative; }
+        .form-group label {
             display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            text-align: center;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif; /* Labels in English */
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="tel"],
+        .form-group select {
+            width: 100%;
+            padding: 11px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--tertiary-bg); /* Slightly different input bg */
+            font-family: 'Poppins', sans-serif; /* Input values in default font */
+        }
+         .form-group select {
+             cursor: pointer;
+             appearance: none;
+             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2364748b'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+             background-repeat: no-repeat;
+             background-position: right 12px center;
+             background-size: 1.2em;
+             padding-right: 40px;
+         }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px var(--accent-light);
         }
 
-        .copy-button:hover {
-            background-color: #45a049;
+        /* --- Feedback Display Area Styles --- */
+        #feedback-display { /* Uses .content-area for visibility toggle */ }
+
+        .display-header { /* Header for the feedback */
+             text-align: center;
+             margin-bottom: 35px;
+             padding-bottom: 20px;
+             border-bottom: 1px solid var(--border-color);
+        }
+        .display-header h2 {
+             font-size: 2rem;
+             color: var(--success-color); /* Green for success/completion */
+             margin-bottom: 5px;
+        }
+        .display-header p { color: var(--text-light); font-size: 1.1rem; margin-top: 0; font-family: var(--font-bengali);}
+
+        .display-section {
+            background-color: var(--secondary-bg); /* White background for sections */
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 5px 15px rgba(100, 116, 139, 0.07);
+            position: relative;
+        }
+        .display-section h3 { /* Section titles */
+            font-size: 1.4rem;
+            color: var(--accent-color); /* Use accent for section titles */
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-light);
+            display: inline-flex; /* Use inline-flex for icon alignment */
+            align-items: center;
+            gap: 10px; /* Space between icon and text */
+            font-family: 'Poppins', sans-serif;
+        }
+        .display-section h3 i { font-size: 1.2rem; } /* Adjust icon size */
+
+        /* Styling the feedback explanation points */
+        #display-feedback-explanation ul {
+            list-style: none; /* Remove default bullets */
+            padding-left: 0;
+        }
+        #display-feedback-explanation li {
+            padding-left: 30px; /* Indent list items */
+            position: relative;
+            margin-bottom: 1.5em; /* More space between points */
+        }
+        #display-feedback-explanation li::before {
+            content: '✘'; /* Use the cross mark from original */
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--error-color); /* Use theme's error color */
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        #display-feedback-explanation li strong { /* Highlight the cause title */
+             color: var(--text-dark);
+             font-weight: 600;
+             display: block; /* Make title block */
+             margin-bottom: 5px;
+             font-family: var(--font-bengali);
+        }
+
+        /* Final Note Section Styling */
+        #display-final-note strong {
+            color: var(--success-color); /* Green for positive notes */
+            font-weight: 600;
+            font-family: var(--font-bengali);
+        }
+        #display-final-note .signature {
+             margin-top: 30px;
+             padding-top: 20px;
+             border-top: 1px dashed var(--border-color);
+             text-align: right;
+             font-size: 0.95rem;
+             color: var(--text-lighter);
+             font-family: 'Poppins', sans-serif;
+        }
+         #display-final-note .signature p { margin-bottom: 2px; line-height: 1.5;}
+
+        /* Copy Section Specific Styles */
+        #display-copy-block {
+            background-color: var(--feedback-copy-bg);
+            color: var(--feedback-copy-text);
+            border: 1px solid var(--feedback-copy-border);
+            padding: 25px 30px;
+            border-radius: 8px;
+        }
+         #display-copy-block h3 { /* Override heading color for this section */
+              color: var(--success-color);
+              border-bottom-color: rgba(16, 185, 129, 0.3);
+              color: #fff; /* White heading on dark */
+         }
+         #display-copy-block p {
+             color: var(--feedback-copy-text);
+             font-size: 0.95rem;
+             line-height: 1.7;
+             margin-bottom: 8px;
+             font-family: var(--font-bengali); /* Bengali in copy block */
+         }
+          #display-copy-block strong { /* Labels in copy block */
+               color: #a5b4fc; /* Lighter accent for dark bg */
+               font-family: 'Poppins', sans-serif;
+               font-weight: 500;
+          }
+         #display-copy-block .copy-token { /* Style the token line */
+             margin-top: 15px;
+             font-size: 0.85rem;
+             color: var(--text-lighter);
+             font-family: 'monospace';
+         }
+
+         /* Error Message Styling */
+         .error-message { color: var(--error-color); font-size: 0.9rem; margin-top: -15px; margin-bottom: 20px; text-align: center; display: none; background-color: rgba(239, 68, 68, 0.08); padding: 10px; border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.2); font-weight: 500; font-family: var(--font-bengali); }
+         .form-group input.error, .form-group select.error { border-color: var(--error-color); box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15); }
+
+        /* --- Footer (From Theme - Page 2) --- */
+        .main-footer { background-color: #1e293b; color: #cbd5e1; padding: 50px 0 20px 0; margin-top: auto; }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; margin-bottom: 40px; }
+        .footer-col { flex: 1; min-width: 200px; margin-bottom: 20px; }
+        .footer-col h4 { color: #fff; margin-bottom: 20px; font-size: 1.1rem; font-weight: 600; position: relative; padding-bottom: 10px; }
+        .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: 0; width: 40px; height: 2px; background-color: var(--accent-color); }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #cbd5e1; transition: color 0.3s ease, padding-left 0.3s ease; }
+        .footer-col ul li a:hover { color: #fff; padding-left: 5px; }
+        .footer-bottom { border-top: 1px solid #334155; padding-top: 25px; text-align: center; font-size: 0.9rem; color: #94a3b8; }
+
+        /* --- Responsive Design (From Page 2 Theme) --- */
+        @media (max-width: 992px) {
+            .menu-toggle { display: block; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }
+            .main-nav { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--secondary-bg); padding: 15px 0; box-shadow: 0 4px 10px var(--shadow-color); text-align: center; animation: slideDown 0.3s ease-out; }
+            .main-nav.active { display: flex; }
+            .main-nav a { margin: 10px 20px; padding: 8px 0; width: auto; }
+            .main-nav a::after { display: none; }
+            .main-nav a:hover { background-color: var(--primary-bg); }
+            @keyframes slideDown { from { opacity: 0; transform: translateY(-10%); } to { opacity: 1; transform: translateY(0); } }
+            .feedback-container { max-width: 90%; padding: 35px 30px;}
+        }
+        @media (max-width: 768px) {
+            .footer-content { text-align: center; }
+            .footer-col { flex-basis: 100%; margin-bottom: 30px; align-items: center; }
+            .footer-col h4::after { left: 50%; transform: translateX(-50%); }
+            #report-feedback-section { padding: 40px 0; }
+            .feedback-container { padding: 30px 20px; max-width: 95%;}
+            .form-grid { grid-template-columns: 1fr; gap: 15px 0;}
+            .display-section { padding: 20px; }
+            .bengali-text, #feedback-display p, #feedback-display li { font-size: 1rem; } /* Adjust font size on smaller screens */
+        }
+        @media (max-width: 576px) {
+             .logo { font-size: 1.3rem; }
+             .logo img { height: 30px; }
+             .feedback-container { padding: 25px 15px; }
+             h2 { font-size: 1.5rem; }
+              .display-header h2 { font-size: 1.6rem; }
+              .display-section h3 { font-size: 1.2rem; }
         }
 
     </style>
-    <script>
-        function displayFormData(event) {
-            event.preventDefault(); // Prevent form from submitting the traditional way
-
-            // Get form values
-            const fullName = document.getElementById('fullName').value;
-           
-            const paymentMethod = document.getElementById('paymentMethod').value;
-            const paymentNumber = document.getElementById('paymentNumber').value;
-            const w4uId = document.getElementById('w4uId').value;
-            const trx = document.getElementById('trx').value;
-            const amount = document.getElementById('amount').value; 
-            
-
-     
-
-            // Display the values
-            const output4 = `
-            <p><b>Reporter ⌵</b></p>
-                <h2>${fullName}</h2>
-            `;
-            
-            const output1 = `
-                <p><b>⇨ Report Info</b></p>
-                <p><strong>Reporter YI ID : </strong> ${w4uId}</p>
-                <p><strong>Subject :</strong> Account Activation Problem </p>
-            `;
-
-            const output2 = `
-                <p><b>⇨ Report Feedback</b></p>
-                <p>Hi, আপনি এরকম একটি পরিস্থিতি তে পড়েছিলেন বিধায় আমরা আন্তরিক ভাবে দুঃখিত ।  কিন্তু এরকম পরিস্থিতিতে পরার কিছু কারণও রয়েছে - </p><br><br>
-                <p><strong>✘ Fake Money Transfer : অনেকেই মনে করে আমাদের System দুর্বল,  ভুয়া তথ্য ( বিকাশ/ নগদ/ রকেট থেকে টাকা পাঠনোর ভুয়া Number, Amount,  Trx ID ) দিয়ে বেরিফাই করতে চায় ।  অনেকে অতীতে এ ক্ষেত্রে সফলতাও অর্জন করে ছিলো,  কিন্তু এখন আর তা হয় না । 
-</strong></p><br>
-
-<p><strong>✘ Server Problem : আপনি টাকা পাঠানোর পরে বিকাশ/নগদ থেকে সাথে সাথে Server এ কনফার্ম হয় না ।  এ ক্ষেত্রে বিকাশ/নগদের সার্ভার জটিলতা দেখাদেয় ।  মেসেজ রিসিভ হলেও, আমাদের সার্ভার বা বিকাশ/নগদের সার্ভার থেকে কোনো টাকা রিসিভ হয় নি  । বিশেষ করে নগদের ক্ষেত্রে এমনটা বেশি হয় ।   এমতাবস্থায়,  আমাদের Payment Verify Website এ গিয়ে আপনি যখন বেরিফায় করেন তখন, Payment Not Revived এমনটায় দেখাবে ।  আপনি যখন ৫ বারের অধিক বেরিফায় করতে চেস্টা করবেন তখন,আমাদের সার্ভারের উপর অনেক চাপ পরে, শুধু তো আপনি গ্রাহক না,আমাদের সাথে দৈনিক হাজারো গ্রাহক যুক্ত হচ্ছে  ।  আপনি বলতে পারেন, আপনাদের ক্ষেত্রে তো এমন হয় না, আমাদের ক্ষেত্রে এমনটা হওয়ার মোক্ষ কারণ হচ্ছে , আমাদের প্রতি নাম্বার থেকে গড়ে প্রতি ৪ সেকেন্ড ২ বার টাকা লেনদেন হয় । আপনি যদি ১ বার Verify করার পরে ভুল হয়েছে দেখে, যিনি রেফার করেছিলেনতার সাথে যোগাযোগ করতেন তাহলে, আপনার সমস্যাটি সমাধান হয়ে যেতো । অথবা আপনি নিজে নিজেই যদি ২ ঘন্টা পরে চেস্টা করতেন তাহলে, Pament Recived দেখাতো ।   আমাদের Payment Verity Website এ ৫ বারের অধিক বেরিফায়ের চেস্টা করলে Payment Block হয়ে যাবে, Block হয়ে যাওয়ার পরেও আপনার payment not recived দেখাবে । </strong></p><br>
-
-
-<p><strong>✘ একিই নাম্বার থেকে থেকে ২য় বার টাকা পাঠানো :  আপনি প্রথমবার টাকা পাঠিয়ে Pament Not Revived দেখে বিচলিতো হয়ে একই নাম্বার থেকে পুনরায় টাকা পাঠিয়ে বেরিফায় করার চেষ্টা করলে, আমাদের সার্ভার ভিব্রান্তিতে পরে যায় ।  তখনও আপনার Payment Block হয়ে যায়  । </strong></p><br>
-
-
-<p><strong>
-    
-✘ ইচ্ছা করে সার্ভারের উপর চাপ প্রয়োগ  :  অনেকেই টাকা পাঠিয়ে কোনো কারণে Payment Not Revived দেখালে, ওরা আমাদের Website এর Verify  Option  এ অনেক চাপ প্রয়োগ করে ।  তখন Automatic আপনার Payment Block হয়ে যায় ।  তা ছাড়া কেউ কেউ টাকা না পাঠিয়েই Verify Option এর উপর চাপ প্রয়োগ করে ।  এতে আমাদের সকল কার্যক্রম ব্যহত হয় ।  এমত অবস্থায় আপনার Your Inspire Account টি Suspend হয়ে যেতে পারে । 
-</strong></p>
-
-
-            `;
-
-            const output3 = `
-                <p><b>⇨ আপনার জানার জন্য</b></p>
-                
-                <p><strong>
-আমাদের সকল Server এবং Website গুলো ৪ জন মানুষ এবং AI এর মাধ্যমে পরিচালিত হয় ।  তাই আমরা সব সময় আপনাদের কে একটি উন্নত মানের সেবা প্রদান করার লক্ষ্যে অক্লান্ত পরিশ্রম করে যাচ্ছি  ।   উপরের কোনো কারণে Payment Not Revived হলে Your Inspire IT কতৃপক্ষ কোনো দায়ি থাকবে না  ।  আপনার এরকম সমস্যার জন্য আমরা আন্তরিকভাবে দুঃখীত ।  আমাদের Devloper Team এর উপর কাজ করে যাচ্ছে  । ধন্যবাদ । </strong></p><br><br><br>
-
-<p><b>Report Details</b></p>
-<p>Name : <strong>${fullName}</strong></p>
-<p>YI User ID : <strong>${w4uId}</strong></p>
-<p>Payment Number : <strong>${paymentNumber}</strong></p>
-<p>Payment Method : <strong>${paymentMethod}</strong></p>
-<p>Amount : <strong>${amount}</strong></p>
-<p>Trx ID : <strong>${trx}</strong></p>
-<p>Image : <strong>fb-lite2428269.jpg,  fb-lite2428270.jpg</strong></p>
-            `;
-            
-            const output5 = `
-                <p>➤ Report Feadback | Your Inspire IT ➤</p><br>
-                
-                <p>Name : <strong>${fullName}</strong></p>
-<p>YI User ID : <strong>${w4uId}</strong></p>
-<p>Payment Number : <strong>${paymentNumber}</strong></p>
-<p>Payment Method : <strong>${paymentMethod}</strong></p>
-<p>Amount : <strong>${amount}</strong></p>
-<p>Trx ID : <strong>${trx}</strong></p><br><br>
-            
-                <p>Note : আমাদের সকল Server এবং Website গুলো ৪ জন মানুষ এবং AI এর মাধ্যমে পরিচালিত হয় ।  তাই আমরা সব সময় আপনাদের কে একটি উন্নত মানের সেবা প্রদান করার লক্ষ্যে অক্লান্ত পরিশ্রম করে যাচ্ছি  ।   উপরের কোনো কারণে Payment Not Revived হলে Your Inspire IT কতৃপক্ষ কোনো দায়ি থাকবে না  ।  আপনার এরকম সমস্যার জন্য আমরা আন্তরিকভাবে দুঃখীত ।  আমাদের Devloper Team এর উপর কাজ করে যাচ্ছে  । </p><br>
-                
-                <p>tok.:1891f455-c1e9-489d-b023-1b124d0</p>
-                
-            `;
-
-            document.getElementById('formOutput1').innerHTML = output1;
-            document.getElementById('formOutput2').innerHTML = output2;
-            document.getElementById('formOutput3').innerHTML = output3;
-            document.getElementById('formOutput4').innerHTML = output4;
-            document.getElementById('formOutput5').innerHTML = output5;
-            document.getElementById('formOutput1').style.display = 'block';
-            document.getElementById('formOutput2').style.display = 'block';
-            document.getElementById('formOutput3').style.display = 'block';
-            document.getElementById('formOutput4').style.display = 'block';
-            document.getElementById('formOutput5').style.display = 'block';
-
-            // Hide the form
-            document.getElementById('simpleForm').style.display = 'none';
-        }
-
-        function copyToClipboard() {
-            const output5 = document.getElementById('formOutput5');
-            const range = document.createRange();
-            range.selectNode(output5);
-            window.getSelection().removeAllRanges(); 
-            window.getSelection().addRange(range);
-            document.execCommand('copy');
-            window.getSelection().removeAllRanges();
-            alert('Copied to clipboard');
-        }
-    </script>
 </head>
 <body>
-   
-    <br><br><br><br><br><br>
-    <div class="main">
-        <div class="content">
-            <img class="shadowfilter" src="https://i.postimg.cc/ZRc76Fqb/In-Shot-20241024-202136364.png">
-            <h1>Your Inspire IT</h1>
-            <p>Make Your Inspire</p><br>
-            <hr><br>
-            <h2>Report Feedback !</h2>
+
+    <!-- Header (From Page 2 Theme) -->
+    <header class="main-header">
+        <div class="container">
+             <a href="#" class="logo">
+                 <img src="https://i.postimg.cc/ZRc76Fqb/In-Shot-20241024-202136364.png" alt="Your Inspire IT Logo"> <!-- Using Page 1 logo -->
+                 Your Inspire IT
+             </a>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="main-nav" id="main-nav">
+                 <a href="#">Home</a>
+                 <a href="#">About</a>
+                 <a href="#" class="active-nav">Report Feedback</a> <!-- Updated Nav Link -->
+                 <a href="#">Contact</a>
+            </nav>
         </div>
-    </div>
+    </header>
 
-    <div class="container">
-        <h2>Simple HTML Form</h2>
-        <form id="simpleForm" onsubmit="displayFormData(event)">
-            <label for="fullName">Full Name:</label>
-            <input type="text" id="fullName" name="fullName" required>
+    <main>
+        <!-- Report Feedback Section -->
+        <section id="report-feedback-section">
+            <div class="feedback-container">
 
-   
+                <!-- Report Submission Form -->
+                <form id="report-form" class="content-area active" novalidate>
+                    <h2>Report Payment Issue</h2>
+                    <p class="form-intro bengali-text">আপনার পেমেন্ট সংক্রান্ত সমস্যার বিবরণ নিচের ফর্মে পূরণ করুন।</p>
 
-        
+                    <div id="error-message" class="error-message bengali-text">অনুগ্রহ করে প্রয়োজনীয় সকল তথ্য সঠিকভাবে পূরণ করুন।</div>
 
-            <label for="email">Amount :</label>
-            <input type="text" id="amount" name="amount" required>
+                    <div class="form-grid">
+                        <!-- Fields from Page 1 form -->
+                        <div class="form-group">
+                            <label for="reportFullName">Full Name:</label>
+                            <input type="text" id="reportFullName" name="reportFullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reportYiId">YI User ID:</label>
+                            <input type="text" id="reportYiId" name="reportYiId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reportPaymentMethod">Payment Method:</label>
+                            <select id="reportPaymentMethod" name="reportPaymentMethod" required>
+                                <option value="" disabled selected>Select Method...</option>
+                                <option value="bKash">bKash</option>
+                                <option value="nagad">Nagad</option> <!-- Consistent naming -->
+                                <option value="rocket">Rocket</option>
+                                <option value="recharge">Mobile Recharge</option> <!-- Consistent naming -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reportPaymentNumber">Payment Number:</label>
+                            <input type="tel" id="reportPaymentNumber" name="reportPaymentNumber" required pattern="[0-9\s-()+]*">
+                        </div>
+                        <div class="form-group">
+                            <label for="reportAmount">Amount (Taka ৳):</label>
+                            <input type="number" id="reportAmount" name="reportAmount" required min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="reportTrxId">Transaction ID (Trx ID):</label>
+                            <input type="text" id="reportTrxId" name="reportTrxId" required>
+                        </div>
+                    </div> <!-- End of form-grid -->
 
-            <label for="paymentMethod">Payment Method:</label>
-            <select id="paymentMethod" name="paymentMethod" required>
-                <option value="bKash">bKash</option>
-                <option value="nagad">nagad</option>
-                <option value="rocket">rocket</option>
-                <option value="recherg">recherg</option>
-                <!-- Add more payment methods as needed -->
-            </select>
+                    <button type="submit" class="btn" id="submit-report-btn">Submit Report</button>
+                </form>
 
-            <label for="paymentNumber">Payment Number:</label>
-            <input type="number" id="paymentNumber" name="paymentNumber" required>
+                <!-- Feedback Display Area -->
+                <div id="feedback-display" class="content-area inactive">
+                     <!-- Display Header -->
+                     <div class="display-header">
+                         <h2 id="feedback-greeting">Feedback for <span id="display-reporter-name"></span></h2>
+                         <p class="bengali-text">আপনার রিপোর্টের জন্য ধন্যবাদ। বিস্তারিত নিচে দেখুন:</p>
+                     </div>
 
-            <label for="w4uId">YI User ID:</label>
-            <input type="text" id="w4uId" name="w4uId" required>
-            
-             <label for="w4uId">Trx ID:</label>
-            <input type="text" id="trx" name="trx" required>
+                     <!-- Section 1: Report Info (From output1 & parts of output3) -->
+                     <div class="display-section" id="display-report-info">
+                          <h3><i class="fas fa-file-alt"></i> Report Details</h3>
+                          <p class="bengali-text"><strong class="highlight-label">রিপোর্টারের নাম:</strong> <span id="info-reporter-name"></span></p>
+                          <p class="bengali-text"><strong class="highlight-label">Reporter YI ID:</strong> <span id="info-yi-id"></span></p>
+                          <p class="bengali-text"><strong class="highlight-label">Subject:</strong> Account Activation Problem</p>
+                          <p class="bengali-text"><strong class="highlight-label">Payment Method:</strong> <span id="info-payment-method"></span></p>
+                          <p class="bengali-text"><strong class="highlight-label">Payment Number:</strong> <span id="info-payment-number"></span></p>
+                          <p class="bengali-text"><strong class="highlight-label">Amount:</strong> <span id="info-amount"></span> ৳</p>
+                          <p class="bengali-text"><strong class="highlight-label">Trx ID:</strong> <span id="info-trx-id"></span></p>
+                          <p class="bengali-text"><strong class="highlight-label">Image(s):</strong> fb-lite2428269.jpg, fb-lite2428270.jpg (উল্লেখ্য)</p>
+                     </div>
 
-            
+                      <!-- Section 2: Feedback Explanation (From output2) -->
+                     <div class="display-section" id="display-feedback-explanation">
+                          <h3><i class="fas fa-exclamation-circle"></i> Feedback & Possible Causes</h3>
+                          <p class="bengali-text">Hi <span class="display-reporter-name-inline"></span>, আপনি এরকম একটি পরিস্থিতিতে পড়েছিলেন বিধায় আমরা আন্তরিকভাবে দুঃখিত। কিন্তু এরকম পরিস্থিতিতে পড়ার কিছু কারণও রয়েছে:</p>
+                          <ul>
+                              <li class="bengali-text">
+                                  <strong>Fake Money Transfer:</strong>
+                                  অনেকেই মনে করে আমাদের System দুর্বল, ভুয়া তথ্য (বিকাশ/নগদ/রকেট থেকে টাকা পাঠানোর ভুয়া Number, Amount, Trx ID) দিয়ে ভেরিফাই করতে চায়। অনেকে অতীতে এ ক্ষেত্রে সফলতাও অর্জন করেছিলো, কিন্তু এখন আর তা হয় না।
+                              </li>
+                              <li class="bengali-text">
+                                  <strong>Server Problem:</strong>
+                                  আপনি টাকা পাঠানোর পরে বিকাশ/নগদ থেকে সাথে সাথে Server এ কনফার্ম হয় না। এক্ষেত্রে বিকাশ/নগদের সার্ভার জটিলতা দেখা দেয়। মেসেজ রিসিভ হলেও, আমাদের সার্ভার বা বিকাশ/নগদের সার্ভার থেকে কোনো টাকা রিসিভ হয় নি। বিশেষ করে নগদের ক্ষেত্রে এমনটা বেশি হয়। এমতাবস্থায়, আমাদের Payment Verify Website এ গিয়ে আপনি যখন ভেরিফাই করেন তখন, "Payment Not Received" এমনটাই দেখাবে। আপনি যখন ৫ বারের অধিক ভেরিফাই করতে চেষ্টা করবেন তখন, আমাদের সার্ভারের উপর অনেক চাপ পড়ে, শুধু তো আপনি গ্রাহক না, আমাদের সাথে দৈনিক হাজারো গ্রাহক যুক্ত হচ্ছে। আপনি বলতে পারেন, আপনাদের ক্ষেত্রে তো এমন হয় না, আমাদের ক্ষেত্রে এমনটা হওয়ার মুখ্য কারণ হচ্ছে, আমাদের প্রতি নাম্বার থেকে গড়ে প্রতি ৪ সেকেন্ডে ২ বার টাকা লেনদেন হয়। আপনি যদি ১ বার Verify করার পরে ভুল হয়েছে দেখে, যিনি রেফার করেছিলেন তার সাথে যোগাযোগ করতেন তাহলে, আপনার সমস্যাটি সমাধান হয়ে যেতো। অথবা আপনি নিজে নিজেই যদি ২ ঘন্টা পরে চেষ্টা করতেন তাহলে, "Payment Received" দেখাতো। আমাদের Payment Verify Website এ ৫ বারের অধিক ভেরিফাইয়ের চেষ্টা করলে Payment Block হয়ে যাবে, Block হয়ে যাওয়ার পরেও আপনার "Payment Not Received" দেখাবে।
+                              </li>
+                              <li class="bengali-text">
+                                  <strong>একই নাম্বার থেকে ২য় বার টাকা পাঠানো:</strong>
+                                  আপনি প্রথমবার টাকা পাঠিয়ে "Payment Not Received" দেখে বিচলিত হয়ে একই নাম্বার থেকে পুনরায় টাকা পাঠিয়ে ভেরিফাই করার চেষ্টা করলে, আমাদের সার্ভার বিভ্রান্তিতে পড়ে যায়। তখনও আপনার Payment Block হয়ে যায়।
+                              </li>
+                              <li class="bengali-text">
+                                  <strong>ইচ্ছাকৃত সার্ভারের উপর চাপ প্রয়োগ:</strong>
+                                  অনেকেই টাকা পাঠিয়ে কোনো কারণে "Payment Not Received" দেখালে, ওরা আমাদের Website এর Verify Option এ অনেক চাপ প্রয়োগ করে। তখন Automatic আপনার Payment Block হয়ে যায়। তাছাড়া কেউ কেউ টাকা না পাঠিয়েই Verify Option এর উপর চাপ প্রয়োগ করে। এতে আমাদের সকল কার্যক্রম ব্যাহত হয়। এমত অবস্থায় আপনার Your Inspire Account টি Suspend হয়ে যেতে পারে।
+                              </li>
+                          </ul>
+                     </div>
 
-            
+                     <!-- Section 3: Final Note (From output3) -->
+                     <div class="display-section" id="display-final-note">
+                          <h3><i class="fas fa-info-circle"></i> আপনার জানার জন্য</h3>
+                          <p class="bengali-text">
+                               <strong>আমাদের সকল Server এবং Website গুলো ৪ জন মানুষ এবং AI এর মাধ্যমে পরিচালিত হয়। তাই আমরা সব সময় আপনাদের কে একটি উন্নত মানের সেবা প্রদান করার লক্ষ্যে অক্লান্ত পরিশ্রম করে যাচ্ছি।</strong>
+                          </p>
+                          <p class="bengali-text">
+                              উপরের কোনো কারণে Payment Not Received হলে Your Inspire IT কর্তৃপক্ষ কোনো দায়ী থাকবে না। আপনার এরকম সমস্যার জন্য আমরা আন্তরিকভাবে দুঃখিত। আমাদের Developer Team এর উপর কাজ করে যাচ্ছে।
+                          </p>
+                          <p class="bengali-text">ধন্যবাদ আমাদের সাথে থাকার জন্য, আশা করি বুঝতে পেরেছেন, পরবর্তী তে ভালোভাবে বুঝেশুনে কাজ করে, আমাদের সাথে যুক্ত হয়ে আরও ভালোভাবে ইনকাম করার চেষ্টা করবেন। ধন্যবাদ।</p>
 
-            
+                          <div class="signature">
+                              <p>শুভেচ্ছান্তে,</p>
+                              <p><strong>Shariar Ahmed</strong></p>
+                              <p>Report Management Team</p>
+                              <p>Your Inspire IT</p>
+                          </div>
+                     </div>
 
-            <input type="submit" value="Submit">
-        </form>
+                     <!-- Section 4: Copy Block (From output5) -->
+                     <div id="display-copy-block">
+                          <h3><i class="fas fa-clipboard"></i> Report Summary (For Your Reference)</h3>
+                          <!-- Content populated by JS -->
+                     </div>
 
+                     <button class="btn btn-success copy-button" onclick="copyToClipboard()">
+                         <i class="fas fa-copy" style="margin-right: 8px;"></i> Copy Summary
+                    </button>
+                </div>
 
+            </div> <!-- End of feedback-container -->
+        </section>
+    </main>
 
-<div> Class="rp">
-    
-    <p>ধন্যবাদ আমাদের সাথে থাকার জন্য, আশা করি বুঝতে পেরেছেন, পরবর্তী তে ভালোভাবে বুঝেশুনে কাজ করে, আমাদের সাথে যুক্ত হয়ে আরও ভালোভাবে ইনকাম করার চেষ্টা করবেন ধন্যবাদ ।  </p>
+    <!-- Footer (From Page 2 Theme) -->
+    <footer class="main-footer">
+        <div class="container">
+             <div class="footer-content">
+                 <!-- Footer columns -->
+                 <div class="footer-col"><h4>About Us</h4><ul><li><a href="#">Our Mission</a></li><li><a href="#">How it Works</a></li><li><a href="#">Blog</a></li></ul></div>
+                 <div class="footer-col"><h4>Support</h4><ul><li><a href="#">Help Center / FAQ</a></li><li><a href="#">Contact Us</a></li><li><a href="#">Report</a></li><li><a href="#">Payment Info</a></li></ul></div>
+                 <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Terms of Service</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Earning Disclaimer</a></li></ul></div>
+             </div>
+             <div class="footer-bottom">© 2022-2025 Your Inspire IT. All Rights Reserved.</div>
+        </div>
+    </footer>
 
+    <script>
+         // --- Mobile Menu Toggle (From Theme) ---
+         const menuToggle = document.getElementById('menu-toggle');
+         const mainNav = document.getElementById('main-nav');
+         if (menuToggle && mainNav) {
+             menuToggle.addEventListener('click', () => {
+                 mainNav.classList.toggle('active');
+                 const icon = menuToggle.querySelector('i');
+                 icon.classList.toggle('fa-bars');
+                 icon.classList.toggle('fa-times');
+             });
+         }
 
-<h1>
------<br>
-Shariar Ahmed<br>
-Report Management Team 
-</div>
-        <div id="formOutput4"></div>
-        <div id="formOutput1"></div>
-        <div id="formOutput2"></div>
-        <div id="formOutput3"></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <div id="formOutput5"></div>
-        <button class="copy-button" onclick="copyToClipboard()">Copy</button>
-    </div>
+         // --- Form Submission & Display Logic ---
+         const reportForm = document.getElementById('report-form');
+         const feedbackDisplay = document.getElementById('feedback-display');
+         const errorMessage = document.getElementById('error-message');
+         const submitBtn = document.getElementById('submit-report-btn');
+
+         // References to output areas/elements
+         const displayReporterName = document.getElementById('display-reporter-name');
+         const displayReporterNameInline = document.querySelectorAll('.display-reporter-name-inline'); // For inline mentions
+         const infoReporterName = document.getElementById('info-reporter-name');
+         const infoYiId = document.getElementById('info-yi-id');
+         const infoPaymentMethod = document.getElementById('info-payment-method');
+         const infoPaymentNumber = document.getElementById('info-payment-number');
+         const infoAmount = document.getElementById('info-amount');
+         const infoTrxId = document.getElementById('info-trx-id');
+         const outputCopyBlock = document.getElementById('display-copy-block'); // Inner content target for copy
+
+         function handleReportSubmit(event) {
+             event.preventDefault();
+
+             if (!validateReportForm()) {
+                 submitBtn.disabled = false;
+                 submitBtn.textContent = 'Submit Report';
+                 return;
+             }
+
+             submitBtn.disabled = true;
+             submitBtn.textContent = 'Processing...';
+
+             // Get form values
+             const fullName = document.getElementById('reportFullName').value;
+             const yiId = document.getElementById('reportYiId').value;
+             const paymentMethod = document.getElementById('reportPaymentMethod').value;
+             const paymentNumber = document.getElementById('reportPaymentNumber').value;
+             const amount = document.getElementById('reportAmount').value;
+             const trxId = document.getElementById('reportTrxId').value;
+
+             // --- Populate Display Areas ---
+
+             // 1. Names in Headers/Text
+             displayReporterName.textContent = fullName;
+             displayReporterNameInline.forEach(el => el.textContent = fullName); // Update inline names
+
+             // 2. Report Info Section
+             infoReporterName.textContent = fullName;
+             infoYiId.textContent = yiId;
+             infoPaymentMethod.textContent = paymentMethod;
+             infoPaymentNumber.textContent = paymentNumber;
+             infoAmount.textContent = amount;
+             infoTrxId.textContent = trxId;
+
+             // 3. Copy Block Section (Content from output5)
+             // Note: Using Bengali text here directly as per Page 1's output5 structure
+             outputCopyBlock.innerHTML = `
+                 <h3><i class="fas fa-clipboard"></i> Report Summary (For Your Reference)</h3>
+                 <p class="bengali-text">➤ Report Feedback | Your Inspire IT ➤</p><br>
+                 <p class="bengali-text"><strong>Name:</strong> ${fullName}</p>
+                 <p class="bengali-text"><strong>YI User ID:</strong> ${yiId}</p>
+                 <p class="bengali-text"><strong>Payment Number:</strong> ${paymentNumber}</p>
+                 <p class="bengali-text"><strong>Payment Method:</strong> ${paymentMethod}</p>
+                 <p class="bengali-text"><strong>Amount:</strong> ${amount} ৳</p>
+                 <p class="bengali-text"><strong>Trx ID:</strong> ${trxId}</p><br>
+                 <p class="bengali-text"><strong>Note:</strong> আমাদের সকল Server এবং Website গুলো ৪ জন মানুষ এবং AI এর মাধ্যমে পরিচালিত হয়। তাই আমরা সব সময় আপনাদের কে একটি উন্নত মানের সেবা প্রদান করার লক্ষ্যে অক্লান্ত পরিশ্রম করে যাচ্ছি। উপরের কোনো কারণে Payment Not Received হলে Your Inspire IT কর্তৃপক্ষ কোনো দায়ী থাকবে না। আপনার এরকম সমস্যার জন্য আমরা আন্তরিকভাবে দুঃখিত। আমাদের Developer Team এর উপর কাজ করে যাচ্ছে।</p><br>
+                 <p class="copy-token">tok.:1891f455-c1e9-489d-b023-1b124d0</p> <!-- Keeping the token -->
+             `;
+
+             // --- Switch Views (Using Page 2's method) ---
+             reportForm.classList.add('hiding');
+             setTimeout(() => {
+                 reportForm.classList.remove('active', 'hiding');
+                 reportForm.classList.add('inactive');
+
+                 feedbackDisplay.classList.remove('inactive');
+                 setTimeout(() => {
+                    feedbackDisplay.classList.add('active');
+                    // Scroll to top of displayed info
+                    feedbackDisplay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 }, 50); // Short delay for transition start
+             }, 550); // Match animation duration (approx)
+         }
+
+        // Function to validate the report form (Adapted from Page 2)
+        function validateReportForm() {
+            let isValid = true;
+            errorMessage.style.display = 'none';
+            errorMessage.textContent = "অনুগ্রহ করে প্রয়োজনীয় সকল তথ্য সঠিকভাবে পূরণ করুন।"; // Bengali error message
+            reportForm.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+
+            const inputsToCheck = reportForm.querySelectorAll('[required]');
+
+            inputsToCheck.forEach(input => {
+                 const value = (typeof input.value === 'string') ? input.value.trim() : input.value;
+
+                 if (!value) {
+                     isValid = false;
+                     input.classList.add('error');
+                 } else if (input.type === 'number' && input.hasAttribute('min') && parseFloat(value) < parseFloat(input.getAttribute('min'))) {
+                     isValid = false;
+                     input.classList.add('error');
+                     errorMessage.textContent = `Amount must be at least ${input.getAttribute('min')}.`; // Keep specific errors in English? Or translate?
+                 } else if (input.validity && !input.validity.valid) { // Catch browser pattern mismatches (like tel)
+                     isValid = false;
+                     input.classList.add('error');
+                     errorMessage.textContent = "Please ensure the Payment Number follows the correct format.";
+                 } else {
+                     input.classList.remove('error');
+                 }
+            });
+
+            if (!isValid) {
+                errorMessage.style.display = 'block';
+                const firstError = reportForm.querySelector('.error');
+                if(firstError) {
+                   firstError.focus();
+                   errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+            return isValid;
+        }
+
+         // Attach submit listener
+         if (reportForm && feedbackDisplay) {
+             reportForm.addEventListener('submit', handleReportSubmit);
+         }
+
+         // Reset input error state on input change (From Page 2 Theme)
+         reportForm.querySelectorAll('input[required], select[required]').forEach(input => {
+            input.addEventListener('input', () => {
+                  if (input.classList.contains('error')) {
+                      input.classList.remove('error');
+                      if (!reportForm.querySelector('.error')) {
+                         errorMessage.style.display = 'none';
+                      }
+                  }
+            });
+         });
+
+        // --- Copy to Clipboard Function (Adapted from Page 2, targeting new block) ---
+        function copyToClipboard() {
+            const copyContentElement = document.getElementById('display-copy-block');
+            if (!copyContentElement) return;
+
+            let textToCopy = "";
+            copyContentElement.querySelectorAll('p.bengali-text').forEach(p => { // Target specific paragraphs
+                let line = p.innerHTML.replace(/<strong>(.*?)<\/strong>/gi, '$1:')
+                                    .replace(/<br\s*\/?>/gi, '\n')
+                                    .replace(/ /g, ' ')
+                                    .replace(/<[^>]+>/g, '') // Strip HTML tags
+                                    .trim();
+                 if (line) textToCopy += line + '\n';
+            });
+             // Add the token separately if needed
+             const tokenElement = copyContentElement.querySelector('.copy-token');
+             if(tokenElement) {
+                textToCopy += '\n' + tokenElement.textContent.trim();
+             }
+
+             textToCopy = textToCopy.trim();
+
+             if (!textToCopy) {
+                alert('Nothing to copy.');
+                return;
+             }
+
+            // Use modern Clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    alert('Report Summary Copied to clipboard!'); // Updated alert
+                }).catch(err => {
+                    console.error('Failed to copy using Clipboard API:', err);
+                    fallbackCopyTextToClipboard(textToCopy); // Fallback
+                });
+            } else {
+                fallbackCopyTextToClipboard(textToCopy); // Fallback for older browsers
+            }
+        }
+
+        // Fallback using execCommand
+        function fallbackCopyTextToClipboard(text) {
+             const textArea = document.createElement("textarea");
+             textArea.value = text;
+             textArea.style.top = "0";
+             textArea.style.left = "0";
+             textArea.style.position = "fixed";
+             document.body.appendChild(textArea);
+             textArea.focus();
+             textArea.select();
+             try {
+                 const successful = document.execCommand('copy');
+                 if (successful) {
+                    alert('Report Summary Copied to clipboard!');
+                 } else {
+                    alert('Copying failed. Please copy manually.');
+                 }
+             } catch (err) {
+                 console.error('Fallback copy failed:', err);
+                 alert('Copying failed. Please copy manually.');
+             }
+             document.body.removeChild(textArea);
+         }
+
+    </script>
+
 </body>
-</html> 
+                                                </html>
